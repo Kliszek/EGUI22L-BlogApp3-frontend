@@ -1,6 +1,6 @@
+import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import UsersService from "../services/users.service";
-import { LoginResponse, LoginResponseStatus } from "./loginResponse.interface";
 
 export const LoginForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -11,14 +11,17 @@ export const LoginForm = () => {
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsPending(true);
-    const result: LoginResponse = await UsersService.signin(username, password);
-    setIsPending(false);
-    if(result.status === LoginResponseStatus.ERROR)
-    {
-      setError(result.error);
-    } else {
-      window.location.href = result.redirect;
-    }
+
+    await UsersService.signin(username, password)
+    .then(() => {
+      window.location.href = '/blogs';
+    })
+    .catch((error:AxiosError) => {
+      setError(error.message);
+    })
+    .finally(()=>{
+      setIsPending(false);
+    })
   };
 
   return (
