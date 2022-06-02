@@ -23,7 +23,7 @@ export default class UsersService extends BaseHttpService {
     if (result.data) {
       const accessToken = result.data.accessToken;
       this.saveToken(accessToken);
-      return { status: LoginResponseStatus.OKAY, error: "", redirect: "blogs" };
+      return { status: LoginResponseStatus.OKAY, error: "", redirect: "/blogs" };
     }
     return { status: LoginResponseStatus.ERROR, error: result, redirect: "" };
   }

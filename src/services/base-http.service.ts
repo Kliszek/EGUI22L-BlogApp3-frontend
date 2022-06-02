@@ -6,7 +6,7 @@ export default class BaseHttpService {
 
   static async get(endpoint: string, options: object = {}) {
     Object.assign(options, this._getCommonOptions());
-    return axios.post(`${this.BASE_URL}/${endpoint}`, options);
+    return axios.get(`${this.BASE_URL}/${endpoint}`, options);
     //catch errors later
   }
 
@@ -35,11 +35,11 @@ export default class BaseHttpService {
   static _getCommonOptions(): object {
     const token = this.loadToken();
     if (token)
-      return {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     else return {};
   }
 }
