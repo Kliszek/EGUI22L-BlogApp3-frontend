@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import UsersService from "../services/users.service";
@@ -18,7 +18,8 @@ export const LoginForm = () => {
       window.location.href = '/blogs';
     })
     .catch((error:AxiosError) => {
-      setError(error.message);
+      const response: AxiosResponse|undefined = error.response;
+      setError(response ? response.data.message : error.message);
     })
     .finally(()=>{
       setIsPending(false);
@@ -41,6 +42,7 @@ export const LoginForm = () => {
             className="d-flex flex-column"
           >
             <input
+              required
               placeholder="Your username..."
               id="usernameInput"
               onChange={(e) => setUsername(e.target.value)}
@@ -48,6 +50,7 @@ export const LoginForm = () => {
               className="mb-3 p-2"
             ></input>
             <input
+              required
               placeholder="Your password..."
               id="passwordInput"
               type="password"

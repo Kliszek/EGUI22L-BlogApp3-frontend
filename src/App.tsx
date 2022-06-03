@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom
 import { BlogsList } from './BlogsList';
 import { BlogNav } from './BlogNav';
 import { BlogView } from './BlogView';
+import { RegisterForm } from './RegisterForm';
 
 function App() {
   const WithNavBar = () => (
@@ -31,6 +32,7 @@ function App() {
           </Route>
           <Route element={<WithoutNavBar/>}>
             <Route path='signin' element={<LoginForm/>} />
+            <Route path='signup' element={<RegisterForm/>} />
           </Route>
         </Routes>
       </div>

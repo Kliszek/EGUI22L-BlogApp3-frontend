@@ -33,8 +33,8 @@ export default class UsersService extends BaseHttpService {
     // return { status: LoginResponseStatus.ERROR, error: result, redirect: "" };
   }
 
-  static async signup(username: string, password: string) {
-    await axios.post(`${this.BASE_URL}/users/signup`, { username, password });
+  static async signup(username: string, email: string, password: string) {
+    await axios.post(`${this.BASE_URL}/users/signup`, { username, email, password });
   }
 
   static async signout() {
