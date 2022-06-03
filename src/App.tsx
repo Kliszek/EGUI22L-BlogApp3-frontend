@@ -2,6 +2,7 @@ import { LoginForm } from './LoginForm';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
 import { BlogsList } from './BlogsList';
 import { BlogNav } from './BlogNav';
+import { BlogView } from './BlogView';
 
 function App() {
   const WithNavBar = () => (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path='blogs' element={<WithNavBar/>}>
             <Route path='' element={<BlogsList />} />
+            <Route path=':blogId' element={<BlogView />} />
           </Route>
           <Route element={<WithoutNavBar/>}>
             <Route path='signin' element={<LoginForm/>} />
