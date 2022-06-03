@@ -1,41 +1,18 @@
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Blog } from "../Interfaces/blog.interface";
-import BlogsService from "../services/blogs.service";
+import useGet from "../useGet";
 
 export const BlogsList = () => {
   const navigate = useNavigate();
 
-  const [blogs, setBlogs] = useState<Blog[] | null>(null);
+  const { data: blogs, isPending, error } = useGet<Blog[]>('blogs');
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const abortCont = new AbortController();
-    BlogsService.getBlogs({ signal: abortCont.signal })
-      .then((result: Blog[]) => {
-        setBlogs(result);
-        setIsLoading(false);
-      })
-      .catch((error: AxiosError) => {
-        if (error.response?.status === 401) {
-          console.log("Could not authorize, redirecting to login page");
-          navigate("/signin");
-          //window.location.href = '/users/signin';
-        } else {
-          console.log(error);
-          //HANDLE THIS LATER!!!
-        }
-      });
-
-    return () => abortCont.abort();
-  }, [navigate]);
 
   return (
     <div className="vh-100 justify-content-center mt-5">
       <Outlet/>
-      {isLoading && <>Loading...</>}
+      {isPending && <>Loading...</>}
+      {error && <span className="text-danger">{error}</span>}
       {blogs &&
         blogs.map((blog) => (
           <div key={blog.id} className="row justify-content-center mb-5">
