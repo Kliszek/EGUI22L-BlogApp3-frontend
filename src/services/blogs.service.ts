@@ -8,14 +8,13 @@ export default class BlogsService extends BaseHttpService {
     return await this.get(`blogs`, options)
       .then((result) => {
         return result.data;
-      })
-      .catch((error: AxiosError) => {
-        if(error.name === 'CanceledError') {
-          console.log("Canceled");
-        } else {
-          console.error(`ERROR: ${error.message}`);
-          throw error;
-        }
+      });
+  }
+
+  static async getBlog(id: string, options: OptionsObject = {}): Promise<Blog> {
+    return await this.get(`blogs/${id}`, options)
+      .then((result) => {
+        return result.data;
       });
   }
 }

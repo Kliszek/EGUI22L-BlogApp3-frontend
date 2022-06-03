@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export default class BaseHttpService {
   static BASE_URL: string = "http://localhost:3001";
@@ -6,7 +6,16 @@ export default class BaseHttpService {
 
   static async get(endpoint: string, options: object = {}) {
     Object.assign(options, this._getCommonOptions());
-    return axios.get(`${this.BASE_URL}/${endpoint}`, options);
+    return axios.get(`${this.BASE_URL}/${endpoint}`, options)
+    .catch((error: AxiosError) => {
+      if(error.name === 'CanceledError') {
+        console.log("Canceled");
+        throw new Error("GET canceled");
+      } else {
+        console.error(`ERROR: ${error.message}`);
+        throw error;
+      }
+    });
     //catch errors later
   }
 
