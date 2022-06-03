@@ -12,8 +12,6 @@ export default class BlogsService extends BaseHttpService {
       .catch((error: AxiosError) => {
         if(error.name === 'CanceledError') {
           console.log("Canceled");
-        } else if (error.response && error.response.status === 401) {
-          throw new Error("Cound not authorize the user!");
         } else {
           console.error(`ERROR: ${error.message}`);
           throw error;

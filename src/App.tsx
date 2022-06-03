@@ -8,8 +8,8 @@ function App() {
       <div className="container text-center d-flex flex-column min-vh-100">
         <header className="App-header vh-100 align-middle">
           <Routes>
-            <Route path='users/signin' element={<LoginForm/>} />
-            <Route path='blogs/' element={<BlogsPage/>} />
+            <Route path='signin' element={<LoginForm/>} />
+            <Route path='blogs' element={<BlogsPage/>} />
           </Routes>
         </header>
       </div>

@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import UsersService from "../services/users.service";
 
 export const LoginForm = () => {
@@ -26,7 +27,7 @@ export const LoginForm = () => {
 
   return (
     <div className="row justify-content-center vh-100 align-items-center">
-      <div className="bg-bg-white col-10 col-md-8 col-lg-6 col-xl-5 card ">
+      <div className="col-10 col-md-8 col-lg-6 col-xl-5 card ">
         <div className="card-body p-3 m-3">
           <div className="mb-3 border-1 border-bottom">
             <h3 className="h3 pb-2 text-start fw-semibold">Log in</h3>
@@ -58,7 +59,7 @@ export const LoginForm = () => {
             {!isPending && <button className='btn btn-primary'>Log in</button>}
           </form>
           <div className="mt-3 pt-2 border-1 border-top">
-            <a href="/">You can also create an account!</a>
+            <Link to="/signup">You can also create an account!</Link>
           </div>
         </div>
       </div>

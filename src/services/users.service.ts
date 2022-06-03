@@ -17,7 +17,7 @@ export default class UsersService extends BaseHttpService {
         //return {success: true, error: '', redirect:'/blogs'};
       })
       .catch((error: AxiosError) => {
-        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+        if (error.response?.status === 403 || error.response?.status === 404) {
           //return {success: false, error: 'Wrong combination of username and password!', redirect:''};
           throw new Error("Wrong combination of username and password!");
         } else {
