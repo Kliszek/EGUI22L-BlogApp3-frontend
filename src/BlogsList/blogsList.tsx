@@ -16,13 +16,13 @@ export const BlogsList = () => {
       {blogs &&
         blogs.map((blog) => (
           <div key={blog.id} className="row justify-content-center mb-5">
-            <div className="col-10 col-lg-8 text-md-start card shadow-sm">
-              <div className="card-body m-2">
+            <div className="col-10 col-lg-8 text-md-start card px-0 shadow-sm">
+              <div className="card-body mx-4 m-2">
                 <div className="d-flex flex-column flex-md-row justify-content-between">
                   <Link to={`/blogs/${blog.id}`}>
                     <h5 className="h3 d-inline-block ps-2 pe-4 py-1 fw-semibold border-1 border-bottom">{blog.title}</h5>
                   </Link>
-                  <p>A blog by: {blog.ownerId}</p>
+                  <p className="text-secondary">A blog by: {blog.ownerId}</p>
                 </div>
                 <div className="mt-4 d-flex row justify-content-end">
                   <div className="start col-12 col-md-6">
@@ -41,8 +41,8 @@ export const BlogsList = () => {
                   </div>
                 </div>
               </div>
-              <div className="card-footer pb-0 mb-0 text-end align-middle">
-                <p>Entries: {blog.blogEntryList.length}</p>
+              <div className="card-footer pb-0 mb-0 text-end align-middle text-secondary">
+                <p className="mb-2">Entries: {blog.blogEntryList.length}</p>
               </div>
             </div>
           </div>
