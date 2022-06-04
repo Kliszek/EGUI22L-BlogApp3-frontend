@@ -3,13 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseHttpService from "../services/base-http.service";
 import useGet from "../useGet";
 import { BlogResponse } from "../Interfaces/blog-response.interface";
-import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { ReactComponent as DeleteIcon } from '../svg/trash.svg';
 import { ReactComponent as PlusIcon } from '../svg/plus.svg';
 import { ReactComponent as OptionsIcon } from '../svg/three-dots.svg'
 import Dropdown from "react-bootstrap/Dropdown";
 import useVerifyAuth from "../useVerifyAuth";
+import { BlogDeletionModal, BlogEntryDeletionModal } from "../Modals";
+import { ModalProperties } from "../Modals/modal-properties.interface";
 
 export const BlogView = () => {
   const { blogId } = useParams();
@@ -77,6 +78,22 @@ export const BlogView = () => {
     isPending: isLoading,
     error: loadingError,
   } = useGet<BlogResponse>(`blogs/${blogId}`);
+
+  const blogDeletionProps: ModalProperties = {
+    showModal: showDeletionModal,
+    setShowModal: setShowDeletionModal,
+    isPending,
+    error,
+    onClickHandler: handleBlogDelete
+  };
+
+  const blogEntryDeletionProps: ModalProperties = {
+    showModal: showEntryDeletionModal,
+    setShowModal: setShowEntryDeletionModal,
+    isPending,
+    error,
+    onClickHandler: handleBlogEntryDelete
+  }
 
   return (
     <div className="row justify-content-center my-5">
@@ -166,50 +183,11 @@ export const BlogView = () => {
 
       {/* DELETION MODAL */}
       {blogRes?.isOwner && (
-        <Modal show={showDeletionModal} onHide={()=>setShowDeletionModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Warning!</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {error && <p className="text-danger">{error}</p>}
-              Are you sure you want to delete this blog and all of its
-              content?
-            </Modal.Body>
-            <Modal.Footer>
-              <button onClick={()=>setShowDeletionModal(false)} className="btn btn-secondary">
-                Cancel
-              </button>
-              {!isPending && <button onClick={handleBlogDelete} className="btn btn-danger">
-                Delete blog
-              </button>}
-              {isPending && <button className="btn btn-danger disabled">
-                Deleting blog...
-              </button>}
-            </Modal.Footer>
-        </Modal>
+        <BlogDeletionModal {...blogDeletionProps}/>
       )}
       {/* ENTRY DELETION MODAL */}
       {blogRes?.isOwner && (
-        <Modal show={showEntryDeletionModal} onHide={()=>setShowEntryDeletionModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Warning!</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {error && <p className="text-danger">{error}</p>}
-              Are you sure you want to delete this blog entry?
-            </Modal.Body>
-            <Modal.Footer>
-              <button onClick={()=>setShowEntryDeletionModal(false)} className="btn btn-secondary">
-                Cancel
-              </button>
-              {!isPending && <button onClick={handleBlogEntryDelete} className="btn btn-danger">
-                Delete entry
-              </button>}
-              {isPending && <button className="btn btn-danger disabled">
-                Deleting entry...
-              </button>}
-            </Modal.Footer>
-        </Modal>
+        <BlogEntryDeletionModal {...blogEntryDeletionProps}/>
       )}
     </div>
   );
