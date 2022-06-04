@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UsersService from "../services/users.service";
 import { ReactComponent as PlusIcon } from '../svg/plus.svg';
 import { ReactComponent as LogoutIcon } from '../svg/logout.svg';
+import { getUsername } from "../useVerifyAuth";
 
 export const BlogNav = () => {
   const navigate = useNavigate();
@@ -40,8 +41,9 @@ export const BlogNav = () => {
               </div>
             </button>
           </div>
-
+          
       </div>
+      <span className="col-10 col-lg-8 py-1 text-end text-secondary">You are logged as: {getUsername()}</span>
     </div>
   );
 }

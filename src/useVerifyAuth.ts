@@ -9,6 +9,17 @@ interface jwtDecodedObject {
   [x: string | number | symbol ]: unknown;
 }
 
+export const getUsername = (): string => {
+  const token: string|null = BaseHttpService.loadToken();
+  if(token) {
+    const decodedToken: jwtDecodedObject = jwt_decode(token);
+    if(decodedToken.username) {
+      return decodedToken.username as string;
+    }
+  }
+  return '';
+}
+
 const useVerifyAuth = () => {
   const navigate = useNavigate();
 

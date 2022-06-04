@@ -1,23 +1,34 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Blog } from "../Interfaces/blog.interface";
 import useGet from "../useGet";
-import useVerifyAuth from "../useVerifyAuth";
+import useVerifyAuth, { getUsername } from "../useVerifyAuth";
 
 export const BlogsList = () => {
   const navigate = useNavigate();
 
   const { data: blogs, isPending, error } = useGet<Blog[]>('blogs');
+  const [ hideOthersBlogs, setHideOthersBlogs ] = useState<boolean>(false);
 
   useVerifyAuth();
 
   return (
-    <div className="justify-content-center mt-5">
-      <Outlet/>
+    <div className="justify-content-center">
+      <div className="row d-flex justify-content-center mt-3 mb-5">
+        <div className="col-10 col-lg-8 d-flex justify-content-end border-1 border-bottom">
+          <div className="form-check d-flex flex-row pb-2 justify-content-center gap-2 ">
+            <input checked={hideOthersBlogs} onChange={(e)=>setHideOthersBlogs(e.target.checked)} style={{width:"1.5rem", height:"1.5rem"}} className="form-check-input" type="checkbox" id="hideOthers"/>
+            <label className="h4 form-check-label text-light" htmlFor="hideOthers">
+              Hide others' blogs
+            </label>
+          </div>
+        </div>
+      </div>
       {isPending && <div className="text-center h3 text-light pt-5 mb-5">Loading...</div>}
       {error && <span className="text-danger my-5">{error}</span>}
       {blogs &&
-        blogs.map((blog) => (
-          <div key={blog.id} className="row justify-content-center mb-5">
+        blogs.map((blog) => (<>
+          {(!hideOthersBlogs || blog.ownerId===getUsername()) && <div key={blog.id} className="row justify-content-center mb-5">
             <div className="col-10 col-lg-8 text-md-start card px-0 shadow-sm">
               <div className="card-body mx-4 m-2">
                 <div className="d-flex flex-column flex-md-row justify-content-between">
@@ -47,7 +58,7 @@ export const BlogsList = () => {
                 <p className="mb-2">Entries: {blog.blogEntryList.length}</p>
               </div>
             </div>
-          </div>
+          </div>}</>
         ))}
       {blogs && blogs.length === 0 && <div>
         <h3 className="h3 text-muted mb-4 px-4">
