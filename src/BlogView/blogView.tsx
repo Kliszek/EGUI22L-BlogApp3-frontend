@@ -14,16 +14,19 @@ export const BlogView = () => {
   const { blogId } = useParams();
   const navigate = useNavigate();
   const [ showDeletionModal, setShowDeletionModal ] = useState<boolean>(false);
-  const [ deletionPending, setDeletionPending ] = useState<boolean>(false);
-  const [ deletionError, setDeletionError ] = useState<string|null>(null);
+  const [ isPending, setIsPending ] = useState<boolean>(false);
+  const [ error, setError ] = useState<string|null>(null);
+  
+  const [ showEntryDeletionModal, setShowEntryDeletionModal ] = useState<boolean>(false);
+  const [ currentBlogEntryId, setCurrentBlogEntryId ] = useState<string>('');
 
   const handleBlogDelete = () => {
-    setDeletionPending(true);
+    setIsPending(true);
     BaseHttpService
     .delete(`blogs/${blogId}`)
     .then(() => {
       navigate('/blogs');
-      setDeletionError(null);
+      setError(null);
       setShowDeletionModal(false);
     })
     .catch((error: AxiosError) => {
@@ -32,24 +35,51 @@ export const BlogView = () => {
         navigate("/signin");
       } else {
         const response: AxiosResponse|undefined = error.response;
-        setDeletionError(response?.data ? response.data.message : error.message);
+        setError(response?.data ? response.data.message : error.message);
       }
     }).finally(()=>{
-      setDeletionPending(false);
+      setIsPending(false);
+    })
+  };
+
+  const handleShowBlogEntryModal = (blogEntryId: string) => {
+    setCurrentBlogEntryId(blogEntryId);
+    setShowEntryDeletionModal(true);
+  }
+
+  const handleBlogEntryDelete = () => {
+    setIsPending(true);
+    BaseHttpService
+    .delete(`blogs/${blogId}/${currentBlogEntryId}`)
+    .then(() => {
+      setError(null);
+      setShowEntryDeletionModal(false);
+      navigate(0);
+    })
+    .catch((error: AxiosError) => {
+      if (error.response?.status === 401) {
+        console.log("Could not authorize, redirecting to login page.");
+        navigate("/signin");
+      } else {
+        const response: AxiosResponse|undefined = error.response;
+        setError(response?.data ? response.data.message : error.message);
+      }
+    }).finally(()=>{
+      setIsPending(false);
     })
   };
 
   const {
     data: blogRes,
-    isPending,
-    error,
+    isPending: isLoading,
+    error: loadingError,
   } = useGet<BlogResponse>(`blogs/${blogId}`);
 
   return (
     <div className="row justify-content-center my-5">
       <div className="col-10 col-lg-8 text-start card px-0 shadow-sm">
-        {isPending && <h2>Loading...</h2>}
-        {error && <span className="text-danger">{error}</span>}
+        {isLoading && <h2>Loading...</h2>}
+        {loadingError && <span className="text-danger">{loadingError}</span>}
         {blogRes && (
           <div className="card-header d-flex flex-column-reverse flex-md-row pt-4 pt-md-5 px-5 pb-4 mb-4">
             <div className="flex-grow-1">
@@ -103,8 +133,8 @@ export const BlogView = () => {
                         <OptionsIcon/>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item href="/">Edit</Dropdown.Item>
-                        <Dropdown.Item href="/">Delete</Dropdown.Item>
+                        <Dropdown.Item>Edit</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>handleShowBlogEntryModal(blogEntry.id)}>Delete</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>}
                   </div>
@@ -138,7 +168,7 @@ export const BlogView = () => {
               <Modal.Title>Warning!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {deletionError && <p className="text-danger">{deletionError}</p>}
+              {error && <p className="text-danger">{error}</p>}
               Are you sure you want to delete this blog and all of its
               content?
             </Modal.Body>
@@ -146,11 +176,34 @@ export const BlogView = () => {
               <button onClick={()=>setShowDeletionModal(false)} className="btn btn-secondary">
                 Cancel
               </button>
-              {!deletionPending && <button onClick={handleBlogDelete} className="btn btn-danger">
+              {!isPending && <button onClick={handleBlogDelete} className="btn btn-danger">
                 Delete blog
               </button>}
-              {deletionPending && <button onClick={handleBlogDelete} className="btn btn-danger disabled">
+              {isPending && <button className="btn btn-danger disabled">
                 Deleting blog...
+              </button>}
+            </Modal.Footer>
+        </Modal>
+      )}
+      {/* ENTRY DELETION MODAL */}
+      {blogRes?.isOwner && (
+        <Modal show={showEntryDeletionModal} onHide={()=>setShowEntryDeletionModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Warning!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {error && <p className="text-danger">{error}</p>}
+              Are you sure you want to delete this blog entry?
+            </Modal.Body>
+            <Modal.Footer>
+              <button onClick={()=>setShowEntryDeletionModal(false)} className="btn btn-secondary">
+                Cancel
+              </button>
+              {!isPending && <button onClick={handleBlogEntryDelete} className="btn btn-danger">
+                Delete entry
+              </button>}
+              {isPending && <button className="btn btn-danger disabled">
+                Deleting entry...
               </button>}
             </Modal.Footer>
         </Modal>
