@@ -9,7 +9,7 @@ export const BlogsList = () => {
 
 
   return (
-    <div className="vh-100 justify-content-center mt-5">
+    <div className="justify-content-center mt-5">
       <Outlet/>
       {isPending && <>Loading...</>}
       {error && <span className="text-danger">{error}</span>}

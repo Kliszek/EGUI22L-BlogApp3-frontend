@@ -26,7 +26,8 @@ const useGet = <T>(url: string) => {
           navigate("/signin");
         } else {
           console.log(error);
-          setError(error.message);
+          const response: AxiosResponse|undefined = error.response;
+          setError(response?.data ? response.data.message : error.message);
         }
       });
 

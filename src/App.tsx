@@ -4,19 +4,20 @@ import { BlogsList } from './BlogsList';
 import { BlogNav } from './BlogNav';
 import { BlogView } from './BlogView';
 import { RegisterForm } from './RegisterForm';
+import { CreateBlog } from './CreateBlog';
 
 function App() {
   const WithNavBar = () => (
     <div>
       <BlogNav />
-      <header className="App-header vh-100 align-middle">
+      <header className="align-middle">
         <Outlet />
       </header>
     </div>
   )
   const WithoutNavBar = () => (
     <div>
-      <header className="App-header vh-100 align-middle">
+      <header className="vh-100 align-middle">
         <Outlet />
       </header>
     </div>
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path='blogs' element={<WithNavBar/>}>
             <Route path='' element={<BlogsList />} />
+            <Route path='create' element={<CreateBlog />} />
             <Route path=':blogId' element={<BlogView />} />
           </Route>
           <Route element={<WithoutNavBar/>}>

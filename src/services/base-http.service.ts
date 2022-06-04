@@ -47,6 +47,8 @@ export default class BaseHttpService {
     return {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
       },
     };
     else return {};

@@ -42,7 +42,7 @@ export const RegisterForm = () => {
       })
       .catch((error:AxiosError) => {
         const response: AxiosResponse|undefined = error.response;
-        setError(response ? response.data.message : error.message);
+        setError(response?.data ? response.data.message : error.message);
       });
     }
     setIsPending(false);

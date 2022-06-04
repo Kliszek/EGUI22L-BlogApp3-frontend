@@ -11,7 +11,7 @@ export const BlogView = () => {
 
 
   return(
-    <div className="vh-100 row justify-content-center my-5">
+    <div className="row justify-content-center my-5">
       <div className="col-10 col-md-8 col-lg-6 col-xl-8 text-start card px-0 shadow-sm">
         {isPending && <h2>Loading...</h2>}
         {error && <span className="text-danger">{error}</span>}
@@ -23,7 +23,7 @@ export const BlogView = () => {
             A blog by: {blog.ownerId}
           </h5>
         </div>}
-        {blog && blog.blogEntryList.length > 0 && <div className="card-body mx-5">
+        {blog && blog.blogEntryList.length > 0 && <div className="card-body mx-md-3 mx-lg-5">
           {blog.blogEntryList.map((blogEntry) => ( <div className="card bg-light pt-3 mb-5">
             <div className="card-body px-4">
               <div className="row ">

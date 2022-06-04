@@ -25,7 +25,7 @@ export const BlogNav = () => {
             </h3>
           </Link>
           <div className="d-flex gap-3">
-            <button className="btn btn-secondary p-3 rounded-pill">
+            <button onClick={()=>navigate('/blogs/create')} className="btn btn-secondary p-3 rounded-pill">
               Create a new blog
             </button>
             <button onClick={handleLogOut} className="btn btn-secondary p-3 rounded-pill">
