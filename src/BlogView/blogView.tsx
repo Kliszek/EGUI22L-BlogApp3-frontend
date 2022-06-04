@@ -2,7 +2,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseHttpService from "../services/base-http.service";
 import useGet from "../useGet";
-import { BlogResponse } from "./blog-response.interface";
+import { BlogResponse } from "../Interfaces/blog-response.interface";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 

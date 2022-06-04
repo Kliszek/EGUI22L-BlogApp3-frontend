@@ -44,7 +44,6 @@ export const LoginForm = () => {
             <input
               required
               placeholder="Your username..."
-              id="usernameInput"
               onChange={(e) => setUsername(e.target.value)}
               value={username}
               className="mb-3 p-2"
@@ -52,7 +51,6 @@ export const LoginForm = () => {
             <input
               required
               placeholder="Your password..."
-              id="passwordInput"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
