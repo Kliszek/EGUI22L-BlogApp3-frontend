@@ -2,6 +2,8 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UsersService from "../services/users.service";
+import { ReactComponent as PlusIcon } from '../svg/plus.svg';
+import { ReactComponent as LogoutIcon } from '../svg/logout.svg';
 
 export const BlogNav = () => {
   const navigate = useNavigate();
@@ -24,12 +26,18 @@ export const BlogNav = () => {
               BlogApp
             </h3>
           </Link>
-          <div className="d-flex gap-3">
+          <div className="d-flex h-75 gap-3 align-items-center">
             <button onClick={()=>navigate('/blogs/create')} className="btn btn-secondary p-3 rounded-pill">
-              Create a new blog
+              <div className="d-flex flex-row align-items-center justify-content-center gap-2 px-md-1">
+                <span className="d-none d-md-inline">Create a new blog</span>
+                <PlusIcon />
+              </div>
             </button>
             <button onClick={handleLogOut} className="btn btn-secondary p-3 rounded-pill">
-              Log out
+              <div className="d-flex flex-row align-items-center justify-content-center gap-2 px-md-1">
+                <span className="d-none d-md-inline">Log out</span>
+                <LogoutIcon />
+              </div>
             </button>
           </div>
 

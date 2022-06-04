@@ -5,6 +5,8 @@ import useGet from "../useGet";
 import { BlogResponse } from "../Interfaces/blog-response.interface";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
+import { ReactComponent as DeleteIcon } from '../svg/trash.svg';
+import { ReactComponent as PlusIcon } from '../svg/plus.svg';
 
 export const BlogView = () => {
   const { blogId } = useParams();
@@ -47,7 +49,7 @@ export const BlogView = () => {
         {isPending && <h2>Loading...</h2>}
         {error && <span className="text-danger">{error}</span>}
         {blogRes && (
-          <div className="card-header d-flex flex-column-reverse flex-md-row p-5 pb-4 mb-4">
+          <div className="card-header d-flex flex-column-reverse flex-md-row pt-4 pt-md-5 px-5 pb-4 mb-4">
             <div className="flex-grow-1">
               <Link
                 to="/blogs"
@@ -55,23 +57,29 @@ export const BlogView = () => {
               >
                 {blogRes.blog.title}
               </Link>
-              <h5 className="h5 mt-3 ps-4 ">
+              <h5 className="h5 mt-3 ps-4">
                 A blog by: {blogRes.blog.ownerId}
               </h5>
             </div>
             {blogRes.isOwner && (
-              <div className="d-flex d-md-block justify-content-around mb-4">
+              <div className="d-flex d-md-block justify-content-around pb-3 mb-2 border-1 border-bottom">
                 <button
                   onClick={()=>navigate(`/blogs/${blogId}/add`)}
                   className="btn btn-primary mx-3"
                 >
-                  Add a new entry
+                  <div className="d-flex flex-row align-items-center justify-content-center gap-2 px-md-1">
+                    <span className="d-none d-md-inline">Add a new entry</span>
+                    <PlusIcon />
+                  </div>
                 </button>
                 <button
                   onClick={()=>setShowDeletionModal(true)}
                   className="btn btn-primary mx-3"
                 >
-                  Delete blog
+                  <div className="d-flex flex-row align-items-center justify-content-center gap-2 px-md-1">
+                    <span className="d-none d-md-inline">Delete blog</span>
+                    <DeleteIcon />
+                  </div>
                 </button>
               </div>
             )}
