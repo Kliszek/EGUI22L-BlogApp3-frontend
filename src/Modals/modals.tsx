@@ -77,6 +77,9 @@ export const BlogEntryEditionModal = (props: ModalPropertiesEdit) => {
       </Modal.Header>
       <Modal.Body>
         {error && <p className="text-danger">{error}</p>}
+        <p className="small text-start">
+          Please specify the title and content of your new blog entry and submit.
+        </p>
         <div className="d-flex flex-column">
           <input
             required

@@ -138,8 +138,8 @@ export const BlogView = () => {
   return (
     <div className="row justify-content-center my-5">
       <div className="col-10 col-lg-8 text-start card px-0 shadow-sm">
-        {isLoading && <h2>Loading...</h2>}
-        {loadingError && <span className="text-danger">{loadingError}</span>}
+        {isLoading && <h2 className="text-center pt-5">Loading...</h2>}
+        {loadingError && <span className="text-danger text-center my-5">{loadingError}</span>}
         {blogRes && (
           <div className="card-header d-flex flex-column-reverse flex-md-row pt-4 pt-md-5 px-5 pb-4 mb-4">
             <div className="flex-grow-1">

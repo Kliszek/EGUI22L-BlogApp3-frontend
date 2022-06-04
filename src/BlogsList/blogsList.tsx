@@ -13,8 +13,8 @@ export const BlogsList = () => {
   return (
     <div className="justify-content-center mt-5">
       <Outlet/>
-      {isPending && <>Loading...</>}
-      {error && <span className="text-danger">{error}</span>}
+      {isPending && <div className="text-center h3 text-light pt-5 mb-5">Loading...</div>}
+      {error && <span className="text-danger my-5">{error}</span>}
       {blogs &&
         blogs.map((blog) => (
           <div key={blog.id} className="row justify-content-center mb-5">
@@ -49,6 +49,14 @@ export const BlogsList = () => {
             </div>
           </div>
         ))}
+      {blogs && blogs.length === 0 && <div>
+        <h3 className="h3 text-muted mb-4 px-4">
+              There are no blogs here yet!
+        </h3>
+        <h4 className="h4 text-muted">
+          You can be the first to <Link className="text-decoration-none" to='/blogs/create'>add one</Link>!
+        </h4>
+      </div>}
     </div>
   );
 };
