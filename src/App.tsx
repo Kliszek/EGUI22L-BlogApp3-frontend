@@ -1,5 +1,5 @@
 import { LoginForm } from './LoginForm';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { BlogsList } from './BlogsList';
 import { BlogNav } from './BlogNav';
 import { BlogView } from './BlogView';
@@ -35,6 +35,7 @@ function App() {
           <Route element={<WithoutNavBar/>}>
             <Route path='signin' element={<LoginForm/>} />
             <Route path='signup' element={<RegisterForm/>} />
+            <Route path='' element={<Navigate to='blogs' />}/>
           </Route>
         </Routes>
       </div>
