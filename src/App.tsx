@@ -37,7 +37,7 @@ function App() {
           <Route element={<WithoutNavBar/>}>
             <Route path='signin' element={<LoginForm/>} />
             <Route path='signup' element={<RegisterForm/>} />
-            <Route path='' element={<Navigate to='blogs' />}/>
+            <Route path='' element={<Navigate to={!!localStorage.getItem('accessToken')?'blogs':'signin'} />}/>
           </Route>
         </Routes>
       </div>
