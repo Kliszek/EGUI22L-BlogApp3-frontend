@@ -7,6 +7,8 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { ReactComponent as DeleteIcon } from '../svg/trash.svg';
 import { ReactComponent as PlusIcon } from '../svg/plus.svg';
+import { ReactComponent as OptionsIcon } from '../svg/three-dots.svg'
+import Dropdown from "react-bootstrap/Dropdown";
 
 export const BlogView = () => {
   const { blogId } = useParams();
@@ -90,13 +92,23 @@ export const BlogView = () => {
         {blogRes && blogRes.blog.blogEntryList.length > 0 && (
           <div className="card-body mx-md-3 mx-lg-5">
             {blogRes.blog.blogEntryList.map((blogEntry) => (
-              <div className="card bg-light pt-3 mb-5">
-                <div className="card-body px-4">
-                  <div className="row "></div>
-                  <h4 className="h4 px-2 lead fw-semibold pb-2 mb-4 border-1 border-bottom text-primary">
-                    {blogEntry.title}
-                  </h4>
-                  <p className="px-2">{blogEntry.content}</p>
+              <div className="card bg-light mb-5">
+                <div className="card-body px-3">
+                  <div className="d-flex mb-4 border-1 border-bottom align-items-center">
+                    <h4 className="h4 flex-grow-1 pt-3 px-1 lead fw-semibold text-primary">
+                      {blogEntry.title}
+                    </h4>
+                    {blogRes.isOwner && <Dropdown align="end" className="dropdown align-self-start">
+                      <Dropdown.Toggle variant="secondary-outline"  className="btn btn-secondary-outline dropdown-no-arrow" data-toggle="dropdown">
+                        <OptionsIcon/>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="/">Edit</Dropdown.Item>
+                        <Dropdown.Item href="/">Delete</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>}
+                  </div>
+                  <p className="px-3">{blogEntry.content}</p>
                 </div>
                 <div className="card-footer mb-0 pb-0 text-end">
                   <p className="mb-1 text-secondary">
