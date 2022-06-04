@@ -1,4 +1,4 @@
-import { Blog } from "../Interfaces/blog.interface";
+import { Blog } from "./blog.interface";
 
 export interface BlogResponse {
   blog: Blog,
