@@ -25,6 +25,12 @@ export default class BaseHttpService {
     //catch errors later
   }
 
+  static async delete(endpoint: string, options: object = {}) {
+    Object.assign(options, this._getCommonOptions());
+    return axios.delete(`${this.BASE_URL}/${endpoint}`, options);
+    //catch errors later
+  }
+
   static saveToken(accessToken: string): void {
     this._accessToken = accessToken;
     return localStorage.setItem("accessToken", accessToken);
