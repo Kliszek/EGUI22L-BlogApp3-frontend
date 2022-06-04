@@ -2,6 +2,8 @@ import { AxiosError, AxiosResponse } from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BaseHttpService from "../services/base-http.service";
+//import Jwt, { JwtPayload } from "jsonwebtoken";
+import useVerifyAuth from "../useVerifyAuth";
 
 export const CreateBlog = () => {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ export const CreateBlog = () => {
   const [ title, setTitle ] = useState<string>('');
   const [ isPending, setIsPending ] = useState<boolean>(false);
   const [ error, setError ] = useState<string|null>(null);
+
+  useVerifyAuth();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

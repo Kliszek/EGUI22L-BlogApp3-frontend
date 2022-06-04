@@ -9,6 +9,7 @@ import { ReactComponent as DeleteIcon } from '../svg/trash.svg';
 import { ReactComponent as PlusIcon } from '../svg/plus.svg';
 import { ReactComponent as OptionsIcon } from '../svg/three-dots.svg'
 import Dropdown from "react-bootstrap/Dropdown";
+import useVerifyAuth from "../useVerifyAuth";
 
 export const BlogView = () => {
   const { blogId } = useParams();
@@ -19,6 +20,8 @@ export const BlogView = () => {
   
   const [ showEntryDeletionModal, setShowEntryDeletionModal ] = useState<boolean>(false);
   const [ currentBlogEntryId, setCurrentBlogEntryId ] = useState<string>('');
+
+  useVerifyAuth();
 
   const handleBlogDelete = () => {
     setIsPending(true);

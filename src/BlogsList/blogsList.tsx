@@ -1,12 +1,14 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Blog } from "../Interfaces/blog.interface";
 import useGet from "../useGet";
+import useVerifyAuth from "../useVerifyAuth";
 
 export const BlogsList = () => {
   const navigate = useNavigate();
 
   const { data: blogs, isPending, error } = useGet<Blog[]>('blogs');
 
+  useVerifyAuth();
 
   return (
     <div className="justify-content-center mt-5">

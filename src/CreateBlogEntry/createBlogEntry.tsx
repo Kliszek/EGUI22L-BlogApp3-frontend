@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { BlogResponse } from "../Interfaces/blog-response.interface";
 import BaseHttpService from "../services/base-http.service";
 import useGet from "../useGet";
+import useVerifyAuth from "../useVerifyAuth";
 
 export const CreateBlogEntry = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ export const CreateBlogEntry = () => {
   const [content, setContent] = useState<string>("");
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  useVerifyAuth();
 
   const {
     data: blogRes,
