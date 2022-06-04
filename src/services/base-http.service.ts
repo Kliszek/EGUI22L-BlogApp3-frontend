@@ -31,6 +31,12 @@ export default class BaseHttpService {
     //catch errors later
   }
 
+  static async patch(endpoint: string, data: object = {}, options: object = {}) {
+    Object.assign(options, this._getCommonOptions());
+    return axios.patch(`${this.BASE_URL}/${endpoint}`, data, options);
+    //catch errors later
+  }
+
   static saveToken(accessToken: string): void {
     this._accessToken = accessToken;
     return localStorage.setItem("accessToken", accessToken);

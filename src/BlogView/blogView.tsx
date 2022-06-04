@@ -10,19 +10,29 @@ import { ReactComponent as OptionsIcon } from '../svg/three-dots.svg'
 import Dropdown from "react-bootstrap/Dropdown";
 import useVerifyAuth from "../useVerifyAuth";
 import { BlogDeletionModal, BlogEntryDeletionModal } from "../Modals";
-import { ModalProperties } from "../Modals/modal-properties.interface";
+import { ModalProperties, ModalPropertiesEdit } from "../Modals/modal-properties.interface";
+import { BlogEntryEditionModal } from "../Modals/modals";
+import { BlogEntry } from "../Interfaces/blog.interface";
 
 export const BlogView = () => {
   const { blogId } = useParams();
   const navigate = useNavigate();
-  const [ showDeletionModal, setShowDeletionModal ] = useState<boolean>(false);
   const [ isPending, setIsPending ] = useState<boolean>(false);
   const [ error, setError ] = useState<string|null>(null);
   
+  const [ showDeletionModal, setShowDeletionModal ] = useState<boolean>(false);
   const [ showEntryDeletionModal, setShowEntryDeletionModal ] = useState<boolean>(false);
-  const [ currentBlogEntryId, setCurrentBlogEntryId ] = useState<string>('');
+  const [ showEntryEditionModal, setShowEntryEditionModal ] = useState<boolean>(false);
+
+  const [ currentBlogEntry, setCurrentBlogEntry ] = useState<BlogEntry>({id:'',title:'',dateTime:new Date(),content:''});
 
   useVerifyAuth();
+
+  const {
+    data: blogRes,
+    isPending: isLoading,
+    error: loadingError,
+  } = useGet<BlogResponse>(`blogs/${blogId}`);
 
   const handleBlogDelete = () => {
     setIsPending(true);
@@ -46,15 +56,15 @@ export const BlogView = () => {
     })
   };
 
-  const handleShowBlogEntryModal = (blogEntryId: string) => {
-    setCurrentBlogEntryId(blogEntryId);
+  const handleShowEntryDeleteModal = (blogEntry: BlogEntry) => {
+    setCurrentBlogEntry(blogEntry);
     setShowEntryDeletionModal(true);
   }
 
-  const handleBlogEntryDelete = () => {
+  const handleEntryDelete = () => {
     setIsPending(true);
     BaseHttpService
-    .delete(`blogs/${blogId}/${currentBlogEntryId}`)
+    .delete(`blogs/${blogId}/${currentBlogEntry?.id}`)
     .then(() => {
       setError(null);
       setShowEntryDeletionModal(false);
@@ -73,11 +83,32 @@ export const BlogView = () => {
     })
   };
 
-  const {
-    data: blogRes,
-    isPending: isLoading,
-    error: loadingError,
-  } = useGet<BlogResponse>(`blogs/${blogId}`);
+  const handleEntryEdit = (title: string, content: string) => {
+    setIsPending(true);
+    BaseHttpService
+    .patch(`blogs/${blogId}/${currentBlogEntry?.id}`, {title, content})
+    .then(() => {
+      setError(null);
+      setShowEntryEditionModal(false);
+      navigate(0);
+    })
+    .catch((error: AxiosError) => {
+      if (error.response?.status === 401) {
+        console.log("Could not authorize, redirecting to login page.");
+        navigate("/signin");
+      } else {
+        const response: AxiosResponse|undefined = error.response;
+        setError(response?.data ? response.data.message : error.message);
+      }
+    }).finally(()=>{
+      setIsPending(false);
+    })
+  };
+
+  const handleShowEntryEditionModal = (blogEntry: BlogEntry) => {
+    setCurrentBlogEntry(blogEntry);
+    setShowEntryEditionModal(true);
+  }
 
   const blogDeletionProps: ModalProperties = {
     showModal: showDeletionModal,
@@ -92,7 +123,16 @@ export const BlogView = () => {
     setShowModal: setShowEntryDeletionModal,
     isPending,
     error,
-    onClickHandler: handleBlogEntryDelete
+    onClickHandler: handleEntryDelete
+  }
+
+  const blogEntryEditionProps: ModalPropertiesEdit = {
+    showModal: showEntryEditionModal,
+    setShowModal: setShowEntryEditionModal,
+    isPending,
+    error,
+    onClickHandler: handleEntryEdit,
+    blogEntry: currentBlogEntry,
   }
 
   return (
@@ -153,8 +193,8 @@ export const BlogView = () => {
                         <OptionsIcon/>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item>Edit</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>handleShowBlogEntryModal(blogEntry.id)}>Delete</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>handleShowEntryEditionModal(blogEntry)}>Edit</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>handleShowEntryDeleteModal(blogEntry)}>Delete</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>}
                   </div>
@@ -188,6 +228,10 @@ export const BlogView = () => {
       {/* ENTRY DELETION MODAL */}
       {blogRes?.isOwner && (
         <BlogEntryDeletionModal {...blogEntryDeletionProps}/>
+      )}
+      {/* ENTRY EDITION MODAL */}
+      {blogRes?.isOwner && (
+        <BlogEntryEditionModal {...blogEntryEditionProps} />
       )}
     </div>
   );
