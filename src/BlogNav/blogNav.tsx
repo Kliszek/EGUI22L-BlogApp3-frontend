@@ -18,7 +18,7 @@ export const BlogNav = () => {
 
   return (
     <div className="row justify-content-center">
-      <div className="navbar col-8 mt-4 p-2 border-1 border-bottom">
+      <div className="navbar col-10 col-lg-8 mt-4 p-2 border-1 border-bottom">
           <Link to='/blogs' className="navbar-brand">
             <h3 className="display-5 text-white fw-semibold">
               BlogApp

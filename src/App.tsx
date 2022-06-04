@@ -5,6 +5,7 @@ import { BlogNav } from './BlogNav';
 import { BlogView } from './BlogView';
 import { RegisterForm } from './RegisterForm';
 import { CreateBlog } from './CreateBlog';
+import { CreateBlogEntry } from './CreateBlogEntry';
 
 function App() {
   const WithNavBar = () => (
@@ -30,6 +31,7 @@ function App() {
           <Route path='blogs' element={<WithNavBar/>}>
             <Route path='' element={<BlogsList />} />
             <Route path='create' element={<CreateBlog />} />
+            <Route path=':blogId/add' element={<CreateBlogEntry />} />
             <Route path=':blogId' element={<BlogView />} />
           </Route>
           <Route element={<WithoutNavBar/>}>

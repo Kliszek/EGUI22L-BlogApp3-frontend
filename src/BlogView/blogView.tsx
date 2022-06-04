@@ -34,7 +34,6 @@ export const BlogView = () => {
       setDeletionPending(false);
     })
   };
-  //const navigate = useNavigate();
 
   const {
     data: blogRes,
@@ -44,11 +43,11 @@ export const BlogView = () => {
 
   return (
     <div className="row justify-content-center my-5">
-      <div className="col-10 col-md-8 col-lg-6 col-xl-8 text-start card px-0 shadow-sm">
+      <div className="col-10 col-lg-8 text-start card px-0 shadow-sm">
         {isPending && <h2>Loading...</h2>}
         {error && <span className="text-danger">{error}</span>}
         {blogRes && (
-          <div className="card-header d-flex p-5 pb-4 mb-4">
+          <div className="card-header d-flex flex-column-reverse flex-md-row p-5 pb-4 mb-4">
             <div className="flex-grow-1">
               <Link
                 to="/blogs"
@@ -61,10 +60,16 @@ export const BlogView = () => {
               </h5>
             </div>
             {blogRes.isOwner && (
-              <div>
+              <div className="d-flex d-md-block justify-content-around mb-4">
+                <button
+                  onClick={()=>navigate(`/blogs/${blogId}/add`)}
+                  className="btn btn-primary mx-3"
+                >
+                  Add a new entry
+                </button>
                 <button
                   onClick={()=>setShowDeletionModal(true)}
-                  className="btn btn-primary"
+                  className="btn btn-primary mx-3"
                 >
                   Delete blog
                 </button>
@@ -72,6 +77,8 @@ export const BlogView = () => {
             )}
           </div>
         )}
+
+        {/* BLOG LIST */}
         {blogRes && blogRes.blog.blogEntryList.length > 0 && (
           <div className="card-body mx-md-3 mx-lg-5">
             {blogRes.blog.blogEntryList.map((blogEntry) => (
@@ -97,13 +104,14 @@ export const BlogView = () => {
         )}
         {blogRes && blogRes.blog.blogEntryList.length === 0 && (
           <div className="card-body mx-md-3 mx-lg-5">
-            <h3 className="h3 text-muted mb-4">
+            <h3 className="h3 text-muted mb-4 px-4">
               This blog doesn't contain any entries yet.
             </h3>
           </div>
         )}
       </div>
 
+      {/* DELETION MODAL */}
       {blogRes?.isOwner && (
         <Modal show={showDeletionModal} onHide={()=>setShowDeletionModal(false)}>
             <Modal.Header closeButton>
