@@ -17,8 +17,8 @@ export const BlogsList = () => {
   return (
     <div className="justify-content-center">
       <div className="row d-flex justify-content-center mt-3 mb-4 pb-2">
-        <div className="col-10 col-lg-8 d-flex justify-content-center justify-content-md-between align-items-end">
-          <div className="d-flex flex-row gap-3 align-items-center pb-2 border-bottom">
+        <div className="col-8 col-md-10 col-lg-8 d-flex flex-column flex-md-row justify-content-center justify-content-md-between">
+          <div className="d-flex flex-row gap-3 align-items-center pb-2">
             <input value={searchText} onChange={(e)=>setSearchText(e.target.value)} type="search" placeholder="Search blogs..." className="p-2 rounded-1 form-control" />
             <SearchIcon className="text-light fw-bold" />
           </div>
