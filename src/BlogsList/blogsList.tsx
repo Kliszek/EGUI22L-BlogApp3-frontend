@@ -33,14 +33,14 @@ export const BlogsList = () => {
       {isPending && <div className="text-center h3 text-light pt-5 mb-5">Loading...</div>}
       {error && <span className="text-danger my-5">{error}</span>}
       {blogs &&
-        blogs.map((blog) => (<>
+        blogs.map((blog) => (<div key={blog.id}>
           {(!hideOthersBlogs || blog.ownerId===getUsername()) &&
           (
             blog.title.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
             blog.ownerId.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
             blog.blogEntryList[0]?.content.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
           ) &&
-          <div key={blog.id} className="row justify-content-center mb-5">
+          <div className="row justify-content-center mb-5">
             <div className="col-10 col-lg-8 text-md-start card px-0 shadow-sm">
               <div className="card-body mx-4 m-2">
                 <div className="d-flex flex-column flex-md-row justify-content-between">
@@ -70,7 +70,7 @@ export const BlogsList = () => {
                 <p className="mb-2">Entries: {blog.blogEntryList.length}</p>
               </div>
             </div>
-          </div>}</>
+          </div>}</div>
         ))}
       {blogs && blogs.length === 0 && <div>
         <h3 className="h3 text-muted mb-4 px-4">
