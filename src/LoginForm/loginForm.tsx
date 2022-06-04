@@ -46,7 +46,7 @@ export const LoginForm = () => {
               placeholder="Your username..."
               onChange={(e) => setUsername(e.target.value)}
               value={username}
-              className="mb-3 p-2"
+              className="mb-3 p-2 form-control rounded-1"
             ></input>
             <input
               required
@@ -54,7 +54,7 @@ export const LoginForm = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              className="mb-4 p-2"
+              className="mb-4 p-2 form-control rounded-1"
             />
             {isPending && <button className='btn btn-primary disabled'>Logging in...</button>}
             {!isPending && <button className='btn btn-primary'>Log in</button>}

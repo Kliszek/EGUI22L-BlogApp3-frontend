@@ -3,22 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { Blog } from "../Interfaces/blog.interface";
 import useGet from "../useGet";
 import useVerifyAuth, { getUsername } from "../useVerifyAuth";
+import { ReactComponent as SearchIcon } from "../svg/search.svg";
 
 export const BlogsList = () => {
   const navigate = useNavigate();
 
   const { data: blogs, isPending, error } = useGet<Blog[]>('blogs');
   const [ hideOthersBlogs, setHideOthersBlogs ] = useState<boolean>(false);
+  const [ searchText, setSearchText ] = useState<string>('');
 
   useVerifyAuth();
 
   return (
     <div className="justify-content-center">
-      <div className="row d-flex justify-content-center mt-3 mb-5">
-        <div className="col-10 col-lg-8 d-flex justify-content-end border-1 border-bottom">
-          <div className="form-check d-flex flex-row pb-2 justify-content-center gap-2 ">
-            <input checked={hideOthersBlogs} onChange={(e)=>setHideOthersBlogs(e.target.checked)} style={{width:"1.5rem", height:"1.5rem"}} className="form-check-input" type="checkbox" id="hideOthers"/>
-            <label className="h4 form-check-label text-light" htmlFor="hideOthers">
+      <div className="row d-flex justify-content-center mt-3 mb-4 pb-2">
+        <div className="col-10 col-lg-8 d-flex justify-content-center justify-content-md-between align-items-end">
+          <div className="d-flex flex-row gap-3 align-items-center pb-2 border-bottom">
+            <input value={searchText} onChange={(e)=>setSearchText(e.target.value)} type="search" placeholder="Search blogs..." className="p-2 rounded-1 form-control" />
+            <SearchIcon className="text-light fw-bold" />
+          </div>
+          <div className="form-check d-flex flex-row pb-2 justify-content-center ps-5 pe-4 ps-md-4 pe-md-0 gap-2 border-bottom">
+            <input checked={hideOthersBlogs} onChange={(e)=>setHideOthersBlogs(e.target.checked)} style={{width:"1.1rem", height:"1.1rem"}} className="form-check-input" type="checkbox" id="hideOthers"/>
+            <label className="h5 form-check-label text-light" htmlFor="hideOthers">
               Hide others' blogs
             </label>
           </div>
@@ -28,7 +34,13 @@ export const BlogsList = () => {
       {error && <span className="text-danger my-5">{error}</span>}
       {blogs &&
         blogs.map((blog) => (<>
-          {(!hideOthersBlogs || blog.ownerId===getUsername()) && <div key={blog.id} className="row justify-content-center mb-5">
+          {(!hideOthersBlogs || blog.ownerId===getUsername()) &&
+          (
+            blog.title.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
+            blog.ownerId.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
+            blog.blogEntryList[0]?.content.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+          ) &&
+          <div key={blog.id} className="row justify-content-center mb-5">
             <div className="col-10 col-lg-8 text-md-start card px-0 shadow-sm">
               <div className="card-body mx-4 m-2">
                 <div className="d-flex flex-column flex-md-row justify-content-between">

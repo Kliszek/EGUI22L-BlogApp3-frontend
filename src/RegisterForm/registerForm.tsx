@@ -69,14 +69,14 @@ export const RegisterForm = () => {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              className="mb-3 p-2"
+              className="mb-3 p-2 form-control rounded-1"
             ></input>
             <input
               required
               placeholder="Your username..."
               onChange={(e) => setUsername(e.target.value)}
               value={username}
-              className="mb-3 p-2"
+              className="mb-3 p-2 form-control rounded-1"
             ></input>
             <input
               required
@@ -84,7 +84,7 @@ export const RegisterForm = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              className="mb-3 p-2"
+              className="mb-3 p-2 form-control rounded-1"
             />
             <input
               required
@@ -92,7 +92,7 @@ export const RegisterForm = () => {
               type="password"
               onChange={(e) => setRPassword(e.target.value)}
               value={rPassword}
-              className="mb-4 p-2"
+              className="mb-4 p-2 form-control rounded-1"
             />
             {isPending && <button className='btn btn-primary disabled'>Loading...</button>}
             {!isPending && <button className='btn btn-primary'>Create account</button>}
