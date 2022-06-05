@@ -43,7 +43,7 @@ export const BlogNav = () => {
           </div>
           
       </div>
-      <span className="col-10 col-lg-8 py-1 text-end text-secondary">You are logged as: {getUsername()}</span>
+      <span className="col-10 col-lg-8 py-1 text-end text-secondary">You are logged in as: {getUsername()}</span>
     </div>
   );
 }

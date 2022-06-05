@@ -30,8 +30,12 @@ const useVerifyAuth = () => {
       if(decodedToken && decodedToken.exp && decodedToken.exp > (Date.now()/1000)) {
         return;
       }
+      else{
+        navigate('/signin', {state:{message:'Your session has expired, please log in again.'}});
+        return;
+      }
     }
-    navigate('/signin', {state:{message:'Your session has expired, please log in again.'}});
+    navigate('/signin');
   },[navigate]);
   return;
 }
