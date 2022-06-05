@@ -31,7 +31,7 @@ const useVerifyAuth = () => {
         return;
       }
     }
-    navigate('/signin');
+    navigate('/signin', {state:{message:'Your session has expired, please log in again.'}});
   },[navigate]);
   return;
 }

@@ -36,8 +36,8 @@ function App() {
             <Route path=':blogId' element={<BlogView />} />
           </Route>
           <Route element={<WithoutNavBar/>}>
-            <Route path='signin' element={<LoginForm/>} />
-            <Route path='signup' element={<RegisterForm/>} />
+            <Route path='signin' element={<LoginForm />} />
+            <Route path='signup' element={<RegisterForm />} />
             <Route path='' element={<Navigate to={'blogs'} />}/>
             <Route path='*' element={<Error404 />}/>
           </Route>

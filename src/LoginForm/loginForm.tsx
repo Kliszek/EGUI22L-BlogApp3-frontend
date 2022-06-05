@@ -1,13 +1,19 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import UsersService from "../services/users.service";
 
+
 export const LoginForm = () => {
+  const { state } = useLocation();
+  const message: string|null = (state as {message: string})?.message;
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  //clear the message
+  window.history.replaceState({}, document.title);
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +38,7 @@ export const LoginForm = () => {
         <div className="card-body p-3 m-3">
           <div className="mb-3 border-1 border-bottom">
             <h3 className="h3 pb-2 text-start fw-semibold">Log in</h3>
+            {message && <p className="text-danger">{message}</p>}
             <p className="small text-start">Please fill in your username and password to continue.</p>
           </div>
           {error && <div className="mb-3 text-danger ">
