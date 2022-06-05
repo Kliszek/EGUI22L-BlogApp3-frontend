@@ -32,6 +32,7 @@ const useVerifyAuth = () => {
       }
       else{
         navigate('/signin', {state:{message:'Your session has expired, please log in again.'}});
+        BaseHttpService.removeToken();
         return;
       }
     }
