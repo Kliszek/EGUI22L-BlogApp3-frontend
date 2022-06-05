@@ -6,6 +6,7 @@ import { BlogView } from './BlogView';
 import { RegisterForm } from './RegisterForm';
 import { CreateBlog } from './CreateBlog';
 import { CreateBlogEntry } from './CreateBlogEntry';
+import { Error404 } from './Errors';
 
 function App() {
   const WithNavBar = () => (
@@ -38,6 +39,7 @@ function App() {
             <Route path='signin' element={<LoginForm/>} />
             <Route path='signup' element={<RegisterForm/>} />
             <Route path='' element={<Navigate to={'blogs'} />}/>
+            <Route path='*' element={<Error404 />}/>
           </Route>
         </Routes>
       </div>
