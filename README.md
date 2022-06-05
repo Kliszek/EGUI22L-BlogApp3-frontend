@@ -26,9 +26,12 @@ It functions as a basic blog application, and has functionalities such as:
 Before launching the project, make sure you have nodejs and npm installed on your computer.
 You'll also need a backend for this application, which is located [here](https://gitlab-stud.elka.pw.edu.pl/egui22l/Jakub_Radoslaw_Kliszko/egui22l-blogapp3-backend). The instructions for the backend are located on its repository website.
 Make sure to run it.
+
 Then, download the frontend files and update all the nodejs packages, by running
 
     npm install
+
+Double check if the *BASE_URL* constant in "***./src/services/base-http.service.ts***" file is indicating the address of the backend server.
 
 After this you can run the project, by executing
 
