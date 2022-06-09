@@ -198,7 +198,7 @@ export const BlogView = () => {
                       </Dropdown.Menu>
                     </Dropdown>}
                   </div>
-                  <p className="px-3">{blogEntry.content}</p>
+                  <p className="px-3 break" style={{whiteSpace:"pre-wrap"}}>{blogEntry.content}</p>
                 </div>
                 <div className="card-footer mb-0 pb-0 text-end">
                   <p className="mb-1 text-secondary">
